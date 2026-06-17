@@ -124,6 +124,13 @@ class PluginConfig(ConfigNode):
     enc_params: str
     playlist_limit: int
 
+    # —— fork 新增：高清专辑图 + 语音音频源 ——
+    audio_api_base_url: str
+    cover_param: str
+    enable_cover: bool
+    enable_card: bool
+    enable_voice: bool
+
     _plugin_name: str = "astrbot_plugin_music"
 
     def __init__(self, config: AstrBotConfig, context: Context):

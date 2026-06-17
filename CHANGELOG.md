@@ -1,5 +1,14 @@
 # 更新日志
 
+## v2.1.1-tb1 (fork by TeamBreakerr)
+
+基于 v2.1.1 改版：
+
+- 点歌选定歌曲后，依次发送 **专辑高清大图 + 音乐卡片 + 语音**（三者独立，语音失败静默忽略），替代原「四选一」逻辑。
+- 语音音频直链改由自建网易云增强 API 获取（新增配置 `audio_api_base_url`，默认 `http://api-enhanced:3000`）；搜索与封面仍走原项目网易官方接口。
+- 新增配置项：`audio_api_base_url`、`cover_param`、`enable_cover`、`enable_card`、`enable_voice`。
+- 用户显式指定发送方式时仍沿用原项目逐个尝试逻辑。
+
 ## v2.1.1
 
 增强改进：

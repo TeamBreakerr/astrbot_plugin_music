@@ -1,7 +1,7 @@
 name: astrbot_plugin_music
 display_name: 点歌插件
-desc: 高性能低耦合的点歌插件, 支持AI点歌、卡片播放、语音播放、热评、歌词、歌单、多音源、无需VIP
+desc: 点歌后依次发送[专辑高清大图]+[音乐卡片]+[语音]；语音音频走自建网易云增强API(解锁VIP/320k)。基于 Zhalslar/astrbot_plugin_music 改版
 help: 略
-version: v2.1.1
-author: Zhalslar
-repo: https://github.com/Zhalslar/astrbot_plugin_music
+version: v2.1.1-tb1
+author: Zhalslar, TeamBreakerr
+repo: https://github.com/TeamBreakerr/astrbot_plugin_music

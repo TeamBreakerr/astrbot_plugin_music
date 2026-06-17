@@ -235,7 +235,80 @@ class MusicSender:
             case _:
                 return False
 
+    async def send_cover(
+        self, event: AstrMessageEvent, player: BaseMusicPlayer, song: Song
+    ) -> bool:
+        """发专辑高清大图"""
+        if not song.cover_url:
+            song = await player.fetch_extra(song)
+        if not song.cover_url:
+            logger.debug(f"【{song.name}】无封面，跳过")
+            return False
+        try:
+            await event.send(event.chain_result([Image.fromURL(song.cover_url)]))
+            return True
+        except Exception as e:
+            logger.error(f"【{song.name}】封面发送失败: {e}")
+            return False
+
     async def send_song(
+        self,
+        event: AstrMessageEvent,
+        player: BaseMusicPlayer,
+        song: Song,
+        modes: list[str] | None = None,
+    ):
+        """点歌主流程(fork改版)。
+
+        - 用户显式指定发送方式(modes) → 沿用原项目「逐个尝试」逻辑
+        - 默认 → 依次发送 [专辑高清大图] + [音乐卡片] + [语音]，三者相互独立，
+          语音失败静默忽略
+        """
+        logger.debug(
+            f"{event.get_sender_name()}（{event.get_sender_id()}）点歌："
+            f"{player.platform.display_name} -> {song.name}_{song.artists}"
+        )
+
+        # 用户显式指定发送方式 → 保持原项目逻辑
+        if modes is not None:
+            await self._send_song_by_modes(event, player, song, modes)
+            return
+
+        # 预取：音频直链(自建API) + 封面(网易官方)
+        try:
+            song = await player.fetch_extra(song)
+        except Exception as e:
+            logger.warning(f"fetch_extra 失败: {e}")
+
+        # 1) 专辑高清大图
+        if self.cfg.enable_cover:
+            await self.send_cover(event, player, song)
+
+        # 2) 音乐卡片（始终发送）
+        if self.cfg.enable_card and self._is_mode_supported("card", event, player):
+            try:
+                await self.send_card(event, player, song)
+            except Exception as e:
+                logger.debug(f"卡片发送失败(忽略): {e}")
+
+        # 3) 语音（尽力发送，失败静默忽略）
+        if (
+            self.cfg.enable_voice
+            and song.audio_url
+            and self._is_mode_supported("record", event, player)
+        ):
+            try:
+                await self.send_record(event, player, song)
+            except Exception as e:
+                logger.debug(f"语音发送失败(忽略): {e}")
+
+        # 附加内容（保持原逻辑）
+        if self.cfg.enable_comments:
+            await self.send_comment(event, player, song)
+        if self.cfg.enable_lyrics:
+            await self.send_lyrics(event, player, song)
+
+    async def _send_song_by_modes(
         self,
         event: AstrMessageEvent,
         player: BaseMusicPlayer,

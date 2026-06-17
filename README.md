@@ -29,9 +29,30 @@ _🎵 高性能多平台点歌插件 🎵_
 
 ---
 
+## 🔧 本 Fork 改动 (TeamBreakerr)
+
+基于 [Zhalslar/astrbot_plugin_music](https://github.com/Zhalslar/astrbot_plugin_music) 改版，**改动点歌选定歌曲后的发送行为**：
+
+- 🖼️ **先发专辑高清大图**（网易 CDN `?param=1024y1024`）
+- 💳 **始终发送音乐卡片**
+- 🔊 **再以语音形式发送歌曲音频**；语音失败静默忽略（卡片已发，不影响）
+
+> 原版是「卡片 / 语音 / 文件 / 文本 四选一，成功一个就停」；本 fork 改为「图 + 卡片 + 语音 都发」。
+
+API 分工（遵循「原项目 API 不变，仅音频走自建 API」）：
+
+- **搜索 / 封面** → 原项目网易官方接口（`music.163.com`）
+- **语音音频直链** → 自建网易云增强 API（配置 `audio_api_base_url`，默认 `http://api-enhanced:3000`）
+
+新增配置项：`audio_api_base_url`、`cover_param`、`enable_cover`、`enable_card`、`enable_voice`。
+
+> 用户显式指定发送方式（如回复「1 语音」「2 文件」）时，仍沿用原项目逐个尝试逻辑。
+
+---
+
 ## 📦 安装
 
-在 AstrBot 插件市场搜索 **astrbot_plugin_music**，点击安装并启用。
+本 fork 手动安装：将插件目录放入 AstrBot 的 `data/plugins/astrbot_plugin_music/` 后重启 AstrBot；或在插件市场填入本仓库地址安装。
 
 ---
 

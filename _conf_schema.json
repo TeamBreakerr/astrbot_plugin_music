@@ -27,6 +27,36 @@
         "type": "string",
         "default": "https://163api.qijieya.cn"
     },
+    "audio_api_base_url": {
+        "description": "音频直链API地址(自建网易云增强API)",
+        "hint": "发送语音时从这里获取音频直链。默认指向你自建的网易云增强API(deploy-api-enhanced，同在web-internal网络)，可解锁VIP、稳定320k。仅作用于网易点歌的语音音频，不影响搜索/封面等原项目接口",
+        "type": "string",
+        "default": "http://api-enhanced:3000"
+    },
+    "cover_param": {
+        "description": "专辑封面分辨率",
+        "hint": "网易云图片CDN的 ?param= 参数，格式 宽y高，如 1024y1024 表示1024×1024高清大图",
+        "type": "string",
+        "default": "1024y1024"
+    },
+    "enable_cover": {
+        "description": "点歌后发送专辑高清大图",
+        "hint": "开启后，点歌选定歌曲会先发送一张专辑高清封面图",
+        "type": "bool",
+        "default": true
+    },
+    "enable_card": {
+        "description": "点歌后发送音乐卡片",
+        "hint": "开启后发送可点击播放的网易云音乐卡片(仅QQ/aiocqhttp + 网易云时生效)",
+        "type": "bool",
+        "default": true
+    },
+    "enable_voice": {
+        "description": "点歌后发送语音",
+        "hint": "开启后把歌曲音频以语音形式发送(音频取自上面的音频直链API)。发送失败会静默忽略",
+        "type": "bool",
+        "default": true
+    },
     "song_limit": {
         "description": "搜索歌曲数量限制",
         "hint": "搜索歌曲数量限制",
