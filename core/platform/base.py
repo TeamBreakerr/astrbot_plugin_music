@@ -158,17 +158,18 @@ class BaseMusicPlayer(ABC):
         headers: dict | None = None,
         cookies: dict | None = None,
         ssl: bool = True,
+        params: dict | None = None,
     ):
         headers = headers or self.HEADERS
 
         if method.upper() == "POST":
             async with self.session.post(
-                url, data=data, headers=headers, cookies=cookies, ssl=ssl
+                url, data=data, headers=headers, cookies=cookies, ssl=ssl, params=params
             ) as resp:
                 return await self._parse_response(resp)
 
         async with self.session.get(
-            url, headers=headers, cookies=cookies, ssl=ssl
+            url, headers=headers, cookies=cookies, ssl=ssl, params=params
         ) as resp:
             return await self._parse_response(resp)
 

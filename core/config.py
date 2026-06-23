@@ -130,6 +130,7 @@ class PluginConfig(ConfigNode):
     enable_cover: bool
     enable_card: bool
     enable_voice: bool
+    netease_cookie: str
 
     _plugin_name: str = "astrbot_plugin_music"
 

@@ -57,6 +57,13 @@
         "type": "bool",
         "default": true
     },
+    "netease_cookie": {
+        "description": "网易云登录Cookie(解决VIP歌曲只有30秒试听)",
+        "hint": "留空=匿名调用，VIP歌只能拿30秒试听。填入已登录(最好是VIP)账号的Cookie(至少含 MUSIC_U=...)后，增强API将返回完整音频。该值仅保存在AstrBot本地配置，不会进入插件仓库。可复用 music-librarian 的 netease.session 里的cookie",
+        "type": "string",
+        "invisible": true,
+        "default": ""
+    },
     "song_limit": {
         "description": "搜索歌曲数量限制",
         "hint": "搜索歌曲数量限制",

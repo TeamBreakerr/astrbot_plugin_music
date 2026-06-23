@@ -55,16 +55,24 @@ class NetEaseMusic(BaseMusicPlayer):
         - 封面：走网易官方API(原项目接口家族)，拉成高清大图
         其余(歌词/评论)仍沿用原项目实现。
         """
-        # 1) 音频直链：自建增强API
+        # 1) 音频直链：自建增强API（带登录Cookie可获取完整音频，否则VIP歌仅30秒试听）
         if not song.audio_url:
             try:
                 base = self.cfg.audio_api_base_url.rstrip("/")
-                result = await self._request(
-                    f"{base}/song/url/v1?id={song.id}&level=exhigh"
-                )
+                params = {"id": str(song.id), "level": "exhigh"}
+                cookie = (self.cfg.netease_cookie or "").strip()
+                if cookie:
+                    params["cookie"] = cookie
+                result = await self._request(f"{base}/song/url/v1", params=params)
                 data = result.get("data") if isinstance(result, dict) else None
                 if data and data[0].get("url"):
-                    song.audio_url = data[0]["url"]
+                    info = data[0]
+                    if info.get("freeTrialInfo"):
+                        logger.warning(
+                            f"【{song.name}】仅获取到30秒试听，"
+                            "请在配置 netease_cookie 填入已登录(VIP)网易Cookie以解锁完整音频"
+                        )
+                    song.audio_url = info["url"]
                 else:
                     logger.warning(f"增强API未返回音频直链：{song.name}")
             except Exception as e:

@@ -1,5 +1,10 @@
 # 更新日志
 
+## v2.1.1-tb2 (fork by TeamBreakerr)
+
+- 修复 VIP 歌曲只有 30 秒试听的问题：新增配置 `netease_cookie`，调增强 API 取音频时携带登录 Cookie 即可获取完整音频；检测到试听片段时输出告警提示。
+- `BaseMusicPlayer._request` 支持 `params` 参数（避免手拼 query 的编码问题）。
+
 ## v2.1.1-tb1 (fork by TeamBreakerr)
 
 基于 v2.1.1 改版：

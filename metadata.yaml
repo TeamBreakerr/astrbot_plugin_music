@@ -2,6 +2,6 @@ name: astrbot_plugin_music
 display_name: 点歌插件
 desc: 点歌后依次发送[专辑高清大图]+[音乐卡片]+[语音]；语音音频走自建网易云增强API(解锁VIP/320k)。基于 Zhalslar/astrbot_plugin_music 改版
 help: 略
-version: v2.1.1-tb1
+version: v2.1.1-tb2
 author: Zhalslar, TeamBreakerr
 repo: https://github.com/TeamBreakerr/astrbot_plugin_music
